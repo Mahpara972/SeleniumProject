@@ -16,9 +16,12 @@ public class LoginPage {
 	
 	String loginButtonXpath ="//*[contains(text(),'Sign in')]";
 	String emailIdField ="//input[@id='email_create']";
+	String emailIdFieldAlreadyRegister ="//input[@id='email']";
 	String submitButton ="//button[@id='SubmitCreate']";
+	String signInButton ="//button[@id='SubmitLogin']";
 	String createAnAccountForm ="//*[@id='account-creation_form']";
 	String erroMessage ="//*[@id='create_account_error']/ol/li";
+	String errorMessaageAlreadyRegister ="//div[@id='center_column']//child::li";
 	Common common = new Common();
 	
 	public void clickLoginButton() throws InterruptedException {
@@ -33,9 +36,17 @@ public class LoginPage {
 		driver.findElement(By.xpath(emailIdField)).sendKeys(emailId);
 	}
 	
+	public void enterEmailIdForAlreadyRegister(String emailId) {
+		driver.findElement(By.xpath(emailIdFieldAlreadyRegister)).sendKeys(emailId);
+	}
+	
 	
 	public void clickCreateAnAccountButton() {
 		driver.findElement(By.xpath(submitButton)).click();;
+	}
+	
+	public void clickSignIntButton() {
+		driver.findElement(By.xpath(signInButton)).click();;
 	}
 
 
@@ -56,6 +67,11 @@ public class LoginPage {
 		Assert.assertTrue(expctedErrorMessage.trim().equals(actualErrorMessage.trim()),"Error message is not correct");
 		
 		
+	}
+	
+	public void verifyAlreadyRegisterError(String expectedError) {
+		String actualErrorMessage =driver.findElement(By.xpath(errorMessaageAlreadyRegister)).getText();
+		Assert.assertTrue(expectedError.trim().equals(actualErrorMessage.trim()),"Error message is not correct");
 	}
 
 }

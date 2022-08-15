@@ -1,5 +1,7 @@
 package Test;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -15,17 +17,15 @@ public class VerifyLoginPage {
 	Common common = new Common();
 	
 	@BeforeMethod
-	void beforeMethod() {
+	void beforeMethod() throws IOException {
 		driver= common.getDriver();
-		driver.get("http://automationpractice.com/index.php");
+		driver.get(Common.url);
 	}
 
 	@Test
 	public void verifyCreateAnAccountWithValidEmailId() throws InterruptedException {
 	
 		LoginPage loginPage =new LoginPage();
-	
-		
 		
 		loginPage.clickLoginButton();
 		loginPage.enterEmailIdForCreateAccount("naveen11234@gmail.com");
@@ -51,9 +51,39 @@ public class VerifyLoginPage {
 		
 		Thread.sleep(1000);
 		
+	}
+	
+	
+	@Test
+	public void verifyErrorCreateAnAccountWithInValidEmailIdAlreadyExist() throws InterruptedException {
 		
+		LoginPage loginPage =new LoginPage();
+		loginPage.clickLoginButton();
+		loginPage.enterEmailIdForCreateAccount("naveen1gmail.com");
+		loginPage.clickCreateAnAccountButton();
+		loginPage.verifyErrorMessage("Invalid email address.");
+		
+		
+		Thread.sleep(1000);
 		
 	}
+	
+	
+	@Test
+	public void verifyErrorAlreadyRegisterWithBlankPassword() throws InterruptedException {
+		
+		LoginPage loginPage =new LoginPage();
+		loginPage.clickLoginButton();
+		loginPage.enterEmailIdForAlreadyRegister("naveen11234@gmail.com");
+		loginPage.clickSignIntButton();
+		loginPage.verifyAlreadyRegisterError("Password is required.");
+		
+		
+		Thread.sleep(1000);
+		
+	}
+	
+	
 	
 	@AfterMethod
 	void afterMethod() {

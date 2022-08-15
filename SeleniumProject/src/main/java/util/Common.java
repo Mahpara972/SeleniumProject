@@ -1,6 +1,10 @@
 package util;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -14,9 +18,9 @@ import org.testng.annotations.BeforeMethod;
 public class Common {
 	
 	public static WebDriver driver=null;
+	public static String url="";
 	
-	
-	public WebDriver getDriver() {
+	public WebDriver getDriver() throws IOException {
 		
 		System.setProperty("webdriver.chrome.driver",
 				System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe");
@@ -26,7 +30,7 @@ public class Common {
 		}
 		
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		
+		loadPropertiesFileData();
 		return driver;
 	}
 	
@@ -40,6 +44,13 @@ public class Common {
 		wait.until(ExpectedConditions.visibilityOf(element));
 		
 	}
+	
+	public static void loadPropertiesFileData() throws IOException {
+		FileReader reader=new FileReader(System.getProperty("user.dir")+"\\src\\test\\resources\\Data.properties");  
+	    Properties p=new Properties();  
+	    p.load(reader);
+	    url=p.getProperty("url");	
+	  }
 	
 
 }
